@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template for Dev VPC with 6 subnets across 2 AZs'
+
+Resources:
+  DevVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: Dev-VPC
+
+  DevPublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DevVPC
+      CidrBlock: 10.0.0.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Dev-Public-Subnet-AZ1
+
+  DevPublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DevVPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Dev-Public-Subnet-AZ2
+
+  DevPrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DevVPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Dev-Private-Subnet-AZ1
+
+  DevPrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DevVPC
+      CidrBlock: 10.0.3.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Dev-Private-Subnet-AZ2
+
+  DevDataSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DevVPC
+      CidrBlock: 10.0.4.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Dev-Data-Subnet-AZ1
+
+  DevDataSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref DevVPC
+      CidrBlock: 10.0.5.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Dev-Data-Subnet-AZ2

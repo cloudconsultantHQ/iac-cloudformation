@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template for Network VPC with 6 subnets across 2 AZs'
+
+Resources:
+  NetworkVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.2.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: Network-VPC
+
+  NetworkPublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref NetworkVPC
+      CidrBlock: 10.2.0.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Network-Public-Subnet-AZ1
+
+  NetworkPublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref NetworkVPC
+      CidrBlock: 10.2.1.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Network-Public-Subnet-AZ2
+
+  NetworkPrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref NetworkVPC
+      CidrBlock: 10.2.2.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Network-Private-Subnet-AZ1
+
+  NetworkPrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref NetworkVPC
+      CidrBlock: 10.2.3.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Network-Private-Subnet-AZ2
+
+  NetworkDataSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref NetworkVPC
+      CidrBlock: 10.2.4.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Network-Data-Subnet-AZ1
+
+  NetworkDataSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref NetworkVPC
+      CidrBlock: 10.2.5.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Network-Data-Subnet-AZ2
